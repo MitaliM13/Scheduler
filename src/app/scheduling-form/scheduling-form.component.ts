@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import {DataJsonService} from '../services/data-json.service'
-
+import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 @Component({
   selector: 'app-scheduling-form',
   templateUrl: './scheduling-form.component.html',
@@ -10,8 +10,14 @@ export class SchedulingFormComponent implements OnInit {
 
   data: any[] = []
   errorMessage: string = ''
+  currentStep = 0
+  isSubmitted = false
 
-  constructor(private dataJson: DataJsonService){}
+  multistepForm = FormGroup
+
+  constructor(private dataJson: DataJsonService, private fb: FormBuilder){
+    
+  }
 
   ngOnInit(): void {
     this.fetchData()

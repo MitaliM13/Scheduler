@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 
@@ -7,10 +7,9 @@ import { Router } from '@angular/router';
   templateUrl: './login.component.html',
   styleUrls: ['./login.component.css']
 })
-export class LoginComponent {
+export class LoginComponent implements OnInit {
   loginForm: FormGroup;
 
-  // Simulate a backend service for valid users
   private validUsers = [
     { username: 'admin1', password: 'admin1' },
     { username: 'admin2', password: 'admin2' },
@@ -26,28 +25,39 @@ export class LoginComponent {
     });
   }
 
-  // Check if the control is invalid and touched or dirty for error messages
+  ngOnInit(): void {
+    this.handleSessionOnReload();
+  }
+
+  private handleSessionOnReload(): void {
+    // If the user is logged in, clear the session data and redirect to login
+    if (sessionStorage.getItem('isLoggedIn') === 'true') {
+      sessionStorage.removeItem('isLoggedIn');
+      this.router.navigate(['/login']);
+    }
+  }
+
   isFieldInvalid(field: string): boolean {
     const control = this.loginForm.get(field);
     return control ? control.invalid && (control.dirty || control.touched) : false;
   }
 
   onLogin(): void {
-    if (this.loginForm.valid) {
-      const { username, password } = this.loginForm.value;
+    if (!this.loginForm.valid) {
+      this.loginForm.markAllAsTouched(); // Show validation errors if the form is invalid
+      return;
+    }
 
-      const userExists = this.validUsers.some(
-        user => user.username === username && user.password === password
-      );
+    const { username, password } = this.loginForm.value;
+    const userExists = this.validUsers.some(
+      user => user.username === username && user.password === password
+    );
 
-      if (userExists) {
-        this.router.navigate(['/scheduling-form']);
-      } else {
-        alert('Invalid Username or Password. Please try again!');
-      }
+    if (userExists) {
+      sessionStorage.setItem('isLoggedIn', 'true');
+      this.router.navigate(['/scheduling-form']);
     } else {
-      this.loginForm.markAllAsTouched(); // Trigger validation messages
-      
+      alert('Invalid Username or Password. Please try again!');
     }
   }
 }
