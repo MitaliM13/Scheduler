@@ -1,0 +1,27 @@
+<mat-card>
+    <mat-form-field appearance="fill">
+      <mat-label>Set Time</mat-label>
+      <input matInput formControlName="time" placeholder="e.g., 12:00">
+    </mat-form-field>
+  
+    <mat-radio-group formControlName="amPm">
+      <mat-radio-button value="AM">AM</mat-radio-button>
+      <mat-radio-button value="PM">PM</mat-radio-button>
+    </mat-radio-group>
+  
+    <mat-form-field appearance="fill">
+      <mat-label>Set Date</mat-label>
+      <input matInput [matDatepicker]="picker" formControlName="date">
+      <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+      <mat-datepicker #picker></mat-datepicker>
+    </mat-form-field>
+  
+    <mat-form-field appearance="fill">
+      <mat-label>Frequency</mat-label>
+      <mat-select formControlName="frequency">
+        <mat-option value="weekly">Weekly</mat-option>
+        <mat-option value="monthly">Monthly</mat-option>
+        <mat-option value="yearly">Yearly</mat-option>
+      </mat-select>
+    </mat-form-field>
+  </mat-card>

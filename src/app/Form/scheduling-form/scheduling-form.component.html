@@ -1,0 +1,22 @@
+<mat-stepper [linear]="true" [selectedIndex]="currentStep">
+    <mat-step [stepControl]="getStepForm(0)">
+      <ng-template matStepLabel>Step 1</ng-template>
+      <app-step-one></app-step-one>
+      <button mat-button matStepperNext (click)="goToNextStep()">Next</button>
+    </mat-step>
+  
+    <mat-step [stepControl]="getStepForm(1)">
+      <ng-template matStepLabel>Step 2</ng-template>
+      <app-step-two></app-step-two>
+      <button mat-button matStepperPrevious (click)="goToPreviousStep()">Back</button>
+      <button mat-button matStepperNext (click)="goToNextStep()">Next</button>
+    </mat-step>
+  
+    <mat-step [stepControl]="getStepForm(2)">
+      <ng-template matStepLabel>Step 3</ng-template>
+      <app-step-three></app-step-three>
+      <button mat-button matStepperPrevious (click)="goToPreviousStep()">Back</button>
+      <button mat-button (click)="onSubmit()">Submit</button>
+    </mat-step>
+  </mat-stepper>
+  
